@@ -313,6 +313,12 @@ return [
             'url'  => 'push',
             'icon' => 'fas fa-fw fa-paper-plane',
         ],
+        ['header' => 'グループ'],
+        [
+            'text' => 'グループ管理',
+            'url'  => 'groups',
+            'icon' => 'fas fa-fw fa-users',
+        ],
     ],
 
     /*

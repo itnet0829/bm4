@@ -32,9 +32,13 @@ class AppServiceProvider extends ServiceProvider
                 \App\Services\AccountService\AccountService::class
             ],
             [
+                \App\Services\GroupService\IGroupService::class,
+                \App\Services\GroupService\GroupService::class
+            ],
+            [
                 \App\Services\PushService\IPushService::class,
                 \App\Services\PushService\PushService::class
-            ],
+            ]
         ]);
     }
 

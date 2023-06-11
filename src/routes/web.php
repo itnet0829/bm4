@@ -44,3 +44,11 @@ Route::get('/push', [App\Http\Controllers\PushController::class, 'index'])->name
 Route::get('/push/{id}/confirm', [App\Http\Controllers\PushController::class, 'confirm'])->name('push');
 Route::get('/push/create', [App\Http\Controllers\PushController::class, 'create'])->name('push');
 Route::post('/push/insert', [App\Http\Controllers\PushController::class, 'store'])->name('push');
+
+// グループ管理ページ
+Route::get('/groups',[App\Http\Controllers\GroupController::class, 'index'])->name('groups');
+Route::get('/groups/{id}/edit',[App\Http\Controllers\GroupController::class, 'edit'])->name('groups');
+Route::post('/groups/{id}/update',[App\Http\Controllers\GroupController::class, 'update'])->name('groups');
+Route::get('/groups/{id}/confirm',[App\Http\Controllers\GroupController::class, 'confirm'])->name('groups');
+Route::get('/groups/create',[App\Http\Controllers\GroupController::class, 'create'])->name('groups');
+Route::post('/groups/insert',[App\Http\Controllers\GroupController::class, 'store'])->name('groups');
