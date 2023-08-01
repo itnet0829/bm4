@@ -27,10 +27,12 @@ class PushController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
-        $all_broadcasted_message = $this->service->get_broadcasted_message();
-        return view('push.view',compact('all_broadcasted_message'));
+        $push_id = $request->input('push_id');
+        $title = $request->input('title');
+        $all_broadcasted_message = $this->service->get_broadcasted_message($push_id,$title)->paginate(100);
+        return view('push.view',compact('all_broadcasted_message','push_id','title'));
     }
 
     public function confirm(int $id)
@@ -39,10 +41,10 @@ class PushController extends Controller
 
         if ($push->all_pushing != true) {
             if ($push->group_id){
-                $get_group = $this->service->get_confirm_group($push->pushcode);
+                $get_group = $this->service->get_confirm_group($push->pushcode)->paginate(20);
                 return view('push.confirm',compact('push','get_group'));
             } else if ($push->user_id) {
-                $get_user = $this->service->get_confirm_user($push->pushcode);
+                $get_user = $this->service->get_confirm_user($push->pushcode)->paginate(20);
                 return view('push.confirm',compact('push','get_user'));
             }
         } else {

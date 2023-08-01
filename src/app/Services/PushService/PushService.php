@@ -11,15 +11,25 @@ use Illuminate\Support\Facades\DB;
 class PushService implements IPushService
 {
 
-    public function get_broadcasted_message(){
-        return collect(DB::table('push_notifies')->get())->unique('pushcode');
+    public function get_broadcasted_message($push_id,$title){
+        $db_source = DB::table('push_notifies');
+
+        if (!empty($push_id)) {
+            $db_source->where('push_id','=',$push_id);
+        }
+
+        if (!empty($title)) {
+            $db_source->where('subjects','LIKE',"%$title%");
+        }
+
+        return collect($db_source->get())->unique('pushcode');
     }
     public function get_accounts(){
-        return DB::table('bm_users')->where('bm_users.status','=',0)->get();
+        return DB::table('bm_users')->where('bm_users.status','=',0);
     }
 
     public function get_groups(){
-        return DB::table('bm_groups')->get();
+        return DB::table('bm_groups');
     }
 
     public function store($data) {

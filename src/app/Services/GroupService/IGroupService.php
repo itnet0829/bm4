@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 
 interface IGroupService extends IService
 {   
-    public function view();
+    public function view($group_id,$group_name,$administrator_name);
 
     public function store($data);
 
@@ -15,5 +15,5 @@ interface IGroupService extends IService
     
     public function update($id,$data);
 
-    public function confirm($id);
+    public function confirm($id,$user_id,$name);
 }

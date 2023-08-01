@@ -28,11 +28,15 @@ class ActivateController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
+        $user_id = $request->input('user_id');
+        $name = $request->input('name');
+        $email = $request->input('email');
+        $telephone_number = $request->input('telephone_number');
 
-        $accounts = $this->service->activates_account_view()->get();
-        return view('activates.view',compact('accounts'));
+        $accounts = $this->service->activates_account_view($user_id,$name,$email,$telephone_number)->paginate(100);
+        return view('activates.view',compact('accounts','user_id','name','email','telephone_number'));
     }
 
     public function destroy(AccountDestoryRequest $request, int $id) {

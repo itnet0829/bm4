@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 interface IPushService extends IService
 {   
 
-    public function get_broadcasted_message();
+    public function get_broadcasted_message($push_id,$title);
 
     public function get_accounts();
 

@@ -46,6 +46,36 @@
             </tbody>
 </table>
 <h3>グループ参加メンバー一覧</h3>
+<a class="btn btn-success create" href="javascript:void(0);" onclick="boxsearch()" >検索条件</a>
+<section class="content form-edits">
+<form action="{{ sprintf(url('/groups/%d/confirm'),$groups->group_id) }}" method="GET">
+  <div class="card card-primary card-outline">
+    <div class="card-header">
+      <h3 class="card-title">検索条件</h3>
+    </div>
+    <div class="card-body">
+        {{ @csrf_field() }}
+        <div class="row">
+          <div class="col-lg-1 col-md-12">
+            <div class="form-group">
+              <label for="user_id">ユーザーID</label>
+              <input type="text" class="form-control" name="user_id" id="user_id" value="{{ $user_id }}">
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-12">
+            <div class="form-group">
+              <label for="name">名前</label>
+              <input type="text" class="form-control" name="name" id="name" value="{{ $name }}">
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="card-footer">
+      <input type="submit" value="検索" class="btn btn-primary entry">
+    </div>
+  </div>
+</form>
+</section>
 <table class="table table-bordered" style="margin-top:40px;">
   <thead class="thead-dark">
     <tr>
@@ -62,6 +92,7 @@
     @endforeach
   </tbody>
 </table>
+{{ $users->links() }}
 @endsection
 
 @section('css')
@@ -74,14 +105,26 @@
       .entry{
         float: right;
       }
-      .help-block{
-        color: red;
+
+      .form-edits {
+        margin-top: 40px;
+        display: none;
       }
     </style>
 @stop
 
 @section('js')
 <script>
+      function search_check(){
+        if ($('#user_id').val() != "" || $('#name').val() != ""){
+          $('.form-edits').fadeIn(30);
+        }
+      }
 
+      function boxsearch(){
+        $('.form-edits').fadeIn(300);
+      }
+
+      search_check();
 </script>
 @stop

@@ -34,6 +34,9 @@ Route::post('/accounts/{id}/update',[App\Http\Controllers\AccountController::cla
 Route::post('/accounts/{id}/status_change',[App\Http\Controllers\AccountController::class, 'status_change'])->name('account');
 Route::post('/accounts/{id}/delete',[App\Http\Controllers\AccountController::class, 'destroy'])->name('account');
 
+// アカウントをCSV出力
+Route::get('/accounts/exports',[App\Http\Controllers\AccountController::class, 'csv_exports'])->name('account');
+
 // アクティベートページ
 Route::get('/activates', [App\Http\Controllers\ActivateController::class, 'index'])->name('account');
 Route::post('/activates/{id}/delete',[App\Http\Controllers\ActivateController::class, 'destroy'])->name('account');

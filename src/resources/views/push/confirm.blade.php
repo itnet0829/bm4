@@ -58,7 +58,7 @@
         </table>
         @if($push->user_id)
             <h4><b>配信されたユーザー</b></h4>
-            <table class="table table-bordered">
+            <table class="table table-bordered" style="margin-bottom:30px;">
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col" style="width: 10%; text-align:center;">ユーザーID</th>
@@ -74,9 +74,10 @@
                 @endforeach
                 </tbody>
             </table>
+            {{ $get_user->links() }}
         @elseif($push->group_id)
             <h4><b>配信されたグループ</b></h4>
-            <table class="table table-bordered">
+            <table class="table table-bordered" style="margin-bottom:30px;">
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col" style="width: 10%; text-align:center;">グループID</th>
@@ -92,6 +93,7 @@
                 @endforeach
                 </tbody>
             </table>
+            {{ $get_group->links() }}
         @else
             <h4><b>全員に配信されています</b></h4>
         @endif

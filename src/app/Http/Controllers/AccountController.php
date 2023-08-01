@@ -8,6 +8,7 @@ use App\Services\AccountService\IAccountService;
 use App\Http\Requests\AccountUpdateRequest;
 use App\Http\Requests\AccountStoreRequest;
 use App\Http\Requests\StatusChangeRequest;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class AccountController extends Controller
 {
@@ -28,10 +29,16 @@ class AccountController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
-        $accounts = $this->service->view();
-        return view('accounts.view',compact('accounts'));
+
+        $user_id = $request->input('user_id');
+        $name = $request->input('name');
+        $email = $request->input('email');
+        $telephone_number = $request->input('telephone_number');
+
+        $accounts = $this->service->view($user_id,$name,$email,$telephone_number)->paginate(100);
+        return view('accounts.view',compact('accounts','user_id','name','email','telephone_number'));
     }
 
     public function create()
@@ -133,5 +140,35 @@ class AccountController extends Controller
         } else {
             return redirect('accounts')->with('error','PERMISSION_DENIED_ERROR');
         }
+    }
+
+    public function csv_exports() {
+        $accounts = $this->service->csv_output()->get();
+
+        $csvHeader = ['UID', '作成日', '名前', 'メールアドレス', '電話番号','グループ','制限','利用期限','ログイン回数','メモ','ステータス'];
+        $csvData = $accounts->toArray();
+
+        $csv = $this->csv_export_fc($csvHeader,$csvData);
+
+
+        return $csv;
+    }
+
+    private function csv_export_fc($csvHeader,$csvData) {
+        $response = new StreamedResponse(function () use ($csvHeader, $csvData) {
+            $handle = fopen('php://output', 'w');
+            fputcsv($handle, mb_convert_encoding($csvHeader, 'SJIS', 'auto'));
+
+            foreach ($csvData as $row) {
+                fputcsv($handle, mb_convert_encoding((array)$row, 'SJIS', 'auto'));
+            }
+
+            fclose($handle);
+        }, 200, [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="users.csv"',
+        ]);
+
+        return $response;
     }
 }

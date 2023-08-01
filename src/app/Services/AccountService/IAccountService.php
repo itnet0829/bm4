@@ -7,9 +7,9 @@ use Illuminate\Support\Collection;
 
 interface IAccountService extends IService
 {   
-    public function view();
+    public function view($user_id,$name,$email,$telephone_number);
 
-    public function activates_account_view();
+    public function activates_account_view($user_id,$name,$email,$telephone_number);
 
     public function edit($id);
 
@@ -20,6 +20,8 @@ interface IAccountService extends IService
     public function statusChange($id,$data);
 
     public function destroy($id,$data);
+
+    public function csv_output();
 
     public function group();
 
